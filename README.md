@@ -68,16 +68,16 @@ This “max fusion” preserves speech details that one model captures better th
   </tr>
   <tr>
     <td style="padding: 10px;">
-      <audio controls style="width: 100%;">
-        <source src="data/text_batched_generated.wav" type="audio/wav">
-        Download the original WAV to listen.
-      </audio>
+      <video controls style="width: 100%;" preload="metadata">
+        <source src="data/text_batched_generated.mp4" type="video/mp4">
+        Download the original MP4 to listen.
+      </video>
     </td>
     <td style="padding: 10px;">
-      <audio controls style="width: 100%;">
-        <source src="artifacts/text_batched_generated__speech_only.wav" type="audio/wav">
-        Download the cleaned WAV to listen.
-      </audio>
+      <video controls style="width: 100%;" preload="metadata">
+        <source src="artifacts/text_batched_generated__speech_only.mp4" type="video/mp4">
+        Download the cleaned MP4 to listen.
+      </video>
     </td>
   </tr>
 </table>
