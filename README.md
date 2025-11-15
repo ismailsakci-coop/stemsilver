@@ -7,33 +7,31 @@ This repo contains an end-to-end pipeline for removing backing music from TTS ou
 - [Core Idea](#-core-idea)
 - [Usage Cheatsheet](#-usage-cheatsheet)
 - [Quick Listen](#-quick-listen)
-- [Pipeline Highlights & Metrics](#-pipeline-highlights)
+- [Pipeline Highlights & Metrics](#-pipeline)
+- [Improvement roadmap](#-todo-roadmap)
 
 ---
 
 #### 🗂️ Layout
 ```text
 .
-├── artifacts/              # Staging for stems, AB snippets, metrics, cleaned WAVs, zipped deliveries
-├── config/                 # YAML configs (best_pipeline.yaml drives everything)
-├── data/                   # Input WAVs (pilot + batch after unzip)
-├── notebooks/              # Diagnostics notebooks
-├── report/                 # Summary + Demucs notes
-├── scripts/                # Helpers: enhancement, audio I/O, batch driver
-├── pipeline.py             # Core orchestration (preprocess → fusion → enhance → post)
-├── evaluate.py             # Objective metrics (WER, STOI, SI-SDR, music residuals)
-├── run.sh                  # One-command pilot run (pipeline + evaluate)
-└── requirements.txt        # Fully pinned Python deps
+├── artifacts/
+├── config/
+├── data/
+├── notebooks/
+├── report/
+├── scripts/
+├── pipeline.py
+├── evaluate.py
+├── run.sh
+└── requirements.txt
 ```
 
 ---
 
 #### 🧠 Core Idea
 We treat each separator as providing a soft ratio mask. For separator $i$ with vocal magnitude $V_i$ and accompaniment magnitude $A_i$, we build a fused mask on the mixture STFT $X$:
-
 $$M_\text{fused}(f,t) = \max_i \left( \frac{|V_i(f,t)|^2}{|V_i(f,t)|^2 + |A_i(f,t)|^2 + \varepsilon} \right), \qquad \hat{V}=M_\text{fused}\cdot X$$
-
-This “max fusion” keeps whichever model best captures a speech component, while suppressing accompaniment.
 
 ---
 
@@ -42,7 +40,7 @@ This “max fusion” keeps whichever model best captures a speech component, wh
 |------|---------|
 | Create venv + install deps | `python3.10 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt` |
 | Pilot run | `bash run.sh` |
-| Batch WAVs (mirror folder structure) | `python -m scripts.batch_process --config config/best_pipeline.yaml --in-dir data/batch/outputs --pattern '**/*.wav' --out-dir artifacts/cleaned` |
+| Batch WAVs | `python -m scripts.batch_process --config config/best_pipeline.yaml --in-dir data/batch/outputs --pattern '**/*.wav' --out-dir artifacts/cleaned` |
 | Evaluate a pair | `python evaluate.py --config config/best_pipeline.yaml --out-dir artifacts/eval` |
 
 ---
@@ -50,32 +48,21 @@ This “max fusion” keeps whichever model best captures a speech component, wh
 #### 🔊 Quick Listen
 | Original mix | Clean render |
 |--------------|--------------|
-| [▶️ Listen](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/data/text_batched_generated.wav) | [▶️ Listen](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/artifacts/text_batched_generated__speech_only.wav) |
+| [▶️ Listen](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/data/text_batched_generated.wav) | [▶️ Listen](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/artifacts/text_batched_generated__speech_only.wav) |
 
 **Batch comparisons:**
 
 | File | Raw | Cleaned |
 |------|-----|---------|
-| 1.5b_text_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/1.5b_text_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/1.5b_text_generated__speech_only.wav) |
-| 2p_goat_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/2p_goat_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/2p_goat_generated__speech_only.wav) |
-| 7b_text_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/7b_text_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/7b_text_generated__speech_only.wav) |
-| text_generated_compiled | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/text_generated_compiled.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/text_generated_compiled__speech_only.wav) |
-| sequential/text_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/sequential/text_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/sequential/text_generated__speech_only.wav) |
-| batched/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/batched/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/batched/text_batched_generated__speech_only.wav) |
-| no_seed/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/no_seed/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/no_seed/text_batched_generated__speech_only.wav) |
-| seed_42_run1/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/seed_42_run1/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/seed_42_run1/text_batched_generated__speech_only.wav) |
-| seed_42_run2/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/raw/outputs/seed_42_run2/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/sep/main/proceed/seed_42_run2/text_batched_generated__speech_only.wav) |
-
----
-
-#### ✅ TODOs
-
-| Status | Task |
-|--------|------|
-| ⬜ | Run `evaluate.py` for each batch WAV and append the resulting metrics to the table below. |
-| ⬜ | Validate an MDX-UVR HQ3 variant and compare masked residual levels. |
-| ⬜ | Add a simple GitHub Action that re-checks LUFS/STOI/WER deltas on PRs. |
-| ⬜ | Publish a GitHub Pages demo with inline `<audio>` players for stakeholders. |
+| 1.5b_text_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/1.5b_text_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/1.5b_text_generated__speech_only.wav) |
+| 2p_goat_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/2p_goat_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/2p_goat_generated__speech_only.wav) |
+| 7b_text_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/7b_text_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/7b_text_generated__speech_only.wav) |
+| text_generated_compiled | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/text_generated_compiled.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/text_generated_compiled__speech_only.wav) |
+| sequential/text_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/sequential/text_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/sequential/text_generated__speech_only.wav) |
+| batched/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/batched/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/batched/text_batched_generated__speech_only.wav) |
+| no_seed/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/no_seed/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/no_seed/text_batched_generated__speech_only.wav) |
+| seed_42_run1/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/seed_42_run1/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/seed_42_run1/text_batched_generated__speech_only.wav) |
+| seed_42_run2/text_batched_generated | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/raw/outputs/seed_42_run2/text_batched_generated.wav) | [▶️](https://gabalpha.github.io/read-audio/?p=https://raw.githubusercontent.com/ismailsakci-coop/stemsilver/main/proceed/seed_42_run2/text_batched_generated__speech_only.wav) |
 
 ---
 
@@ -98,7 +85,7 @@ This “max fusion” keeps whichever model best captures a speech component, wh
 | LUFS | −26.0 | −16.3 |
 | Music ↦ Speech energy | 0 dB | −32.7 dB |
 | STOI | — | 0.996 |
-| SI-SDR | — | 9.36 dB |
+| SI-SDR | — | 9.36 dB |
 | WER | Reference | 5.9 % |
 
 <table>
@@ -133,3 +120,23 @@ This “max fusion” keeps whichever model best captures a speech component, wh
 </table>
 
 ---
+
+#### ✅ TODO Roadmap
+
+```svg
+<svg width="100%" height="110" xmlns="http://www.w3.org/2000/svg">
+  <rect x="5" y="20" width="28%" height="70" rx="12" fill="#8ecae6"/>
+  <rect x="35%" y="20" width="28%" height="70" rx="12" fill="#ffb703"/>
+  <rect x="65%" y="20" width="28%" height="70" rx="12" fill="#219ebc"/>
+  <text x="19%" y="70" text-anchor="middle" font-size="14" fill="#072b3d">Model Experiments</text>
+  <text x="49%" y="70" text-anchor="middle" font-size="14" fill="#2f2f2f">Metrics Automation</text>
+  <text x="79%" y="70" text-anchor="middle" font-size="14" fill="#e0fbfc">Stakeholder Demo</text>
+</svg>
+```
+
+| Status | Task |
+|--------|------|
+| ⬜ | Evaluate MDX-UVR HQ3 + SoftMasking vs current fusion. |
+| ⬜ | Build a GitHub Action that recomputes LUFS/STOI/WER for every PR. |
+| ⬜ | Add `artifacts/eval/batch_metrics.csv` by running `evaluate.py` on each cleaned file. |
+| ⬜ | Publish a GitHub Pages microsite hosting the gabalpha players for stakeholder review.
