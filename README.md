@@ -61,10 +61,25 @@ This “max fusion” preserves speech details that one model captures better th
 
 #### 🔊 Quick Listen
 
-- [Original mix (`text_batched_generated.wav`)](data/text_batched_generated.wav)
-- [Cleanest render (`text_batched_generated__speech_only.wav`)](artifacts/text_batched_generated__speech_only.wav)
+<details open>
+<summary><strong>Original mix – <code>text_batched_generated.wav</code></strong></summary>
 
-Open them in any media player (or drop them into VS Code’s audio preview) for an immediate AB comparison.
+<audio controls>
+  <source src="data/text_batched_generated.wav" type="audio/wav">
+  Your browser cannot play WAV files directly—download the file instead.
+</audio>
+
+</details>
+
+<details open>
+<summary><strong>Clean render – <code>text_batched_generated__speech_only.wav</code></strong></summary>
+
+<audio controls>
+  <source src="artifacts/text_batched_generated__speech_only.wav" type="audio/wav">
+  Your browser cannot play WAV files directly—download the file instead.
+</audio>
+
+</details>
 
 ---
 
