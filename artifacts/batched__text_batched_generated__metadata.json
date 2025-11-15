@@ -1,0 +1,40 @@
+{
+  "input_path": "data/batch/outputs/batched/text_batched_generated.wav",
+  "base_name": "batched__text_batched_generated",
+  "sample_rate": 24000,
+  "preprocessed_path": "artifacts/intermediates/batched__text_batched_generated__pre_loudnorm.wav",
+  "separation_models": [
+    {
+      "model": "htdemucs_ft",
+      "vocals_path": "artifacts/separated/htdemucs_ft/batched__text_batched_generated__pre_loudnorm/vocals.wav",
+      "residual_path": "artifacts/separated/htdemucs_ft/batched__text_batched_generated__pre_loudnorm/no_vocals.wav"
+    },
+    {
+      "model": "mdx_extra_q",
+      "vocals_path": "artifacts/separated/mdx_extra_q/batched__text_batched_generated__pre_loudnorm/vocals.wav",
+      "residual_path": "artifacts/separated/mdx_extra_q/batched__text_batched_generated__pre_loudnorm/no_vocals.wav"
+    }
+  ],
+  "final_path": "artifacts/cleaned/batched/text_batched_generated__speech_only.wav",
+  "final_sr": 44100,
+  "input_lufs": -26.007179512972144,
+  "pre_loudnorm_target": -23.0,
+  "pre_true_peak_db": -1.0,
+  "separation_model": "htdemucs_ft,mdx_extra_q",
+  "separation_two_stems": "vocals",
+  "separation_vocals": "artifacts/intermediates/batched__text_batched_generated__demucs_vocals.wav",
+  "separation_residual": "artifacts/intermediates/batched__text_batched_generated__combined_no_vocals.wav",
+  "enhancer": "denoiser",
+  "enhancer_checkpoint": "dns64",
+  "enhancer_dry_wet": 0.35,
+  "final_loudness": -16.0,
+  "final_true_peak": -1.0,
+  "ab_snippets": [
+    "artifacts/ab/batched__text_batched_generated__segment1_clean.wav",
+    "artifacts/ab/batched__text_batched_generated__segment1_orig.wav",
+    "artifacts/ab/batched__text_batched_generated__segment2_clean.wav",
+    "artifacts/ab/batched__text_batched_generated__segment2_orig.wav",
+    "artifacts/ab/batched__text_batched_generated__segment3_clean.wav",
+    "artifacts/ab/batched__text_batched_generated__segment3_orig.wav"
+  ]
+}

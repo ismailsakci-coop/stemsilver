@@ -1,0 +1,75 @@
+experiment:
+  name: pilot_htdemucs_denoiser
+  seed: 42
+  description: |
+    Pilot pipeline using HTDemucs (two-stems vocals) followed by DNS64 denoiser
+    and light beta-Wiener post-masking.
+paths:
+  input_wav: data/text_batched_generated.wav
+  workspace: .
+  artifacts_dir: artifacts
+  intermediates_dir: artifacts/intermediates
+  separated_dir: artifacts/separated
+  ab_dir: artifacts/ab
+  eval_dir: artifacts/eval
+  final_wav: artifacts/text_batched_generated__speech_only.wav
+preprocess:
+  loudnorm_target_lufs: -23.0
+  loudnorm_true_peak_db: -1.0
+  loudnorm_lra: 11.0
+separation:
+  engine: demucs
+  fusion_fft: 4096
+  fusion_hop: 1024
+  reuse_existing: true
+  models:
+    - model_name: htdemucs_ft
+      two_stems: vocals
+      shifts: 4
+      overlap: 0.55
+      segment: 6
+      jobs: 0
+      device: auto
+    - model_name: mdx_extra_q
+      two_stems: vocals
+      shifts: 2
+      overlap: 0.25
+      segment: 0
+      jobs: 0
+      device: auto
+enhancement:
+  method: denoiser
+  checkpoint: dns64
+  dry_wet: 0.35
+  residual_blend: 0.05
+  beta_wiener:
+    enabled: true
+    beta: 1.5
+    floor: 0.02
+    fft_size: 4096
+    hop_length: 512
+postprocess:
+  final_lufs: -16.0
+  final_true_peak_db: -1.0
+  preserve_original_sr: true
+  highpass_hz: 70
+  high_shelf_hz: 12000
+  high_shelf_db: 1.0
+  high_shelf_q: 0.707
+ab_tests:
+  snippet_seconds: 12
+  snippet_count: 3
+  fade_ms: 10
+  voiced_gate_db: -45
+  min_silence_s: 0.2
+evaluation:
+  asr_backend: faster-whisper
+  asr_model: large-v3
+  asr_device: cpu
+  asr_compute_type: int8
+  music_classifier: panns
+  music_chunk_s: 5
+  music_focus_labels:
+    - Music
+    - Musical instrument
+    - Singing

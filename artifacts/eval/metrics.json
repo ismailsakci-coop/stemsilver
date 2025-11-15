@@ -1,0 +1,32 @@
+{
+  "orig_lufs": -26.006721668379367,
+  "clean_lufs": -16.269039763436645,
+  "music_to_speech_db": -32.684549617237494,
+  "speech_preservation_si_sdr": 9.355476483105475,
+  "speech_stoi_vs_stage_a": 0.99621385658105,
+  "wer_orig_vs_clean": 0.058823529411764705,
+  "orig_transcript": "The Clockmaker's Lantern. In a quiet town tucked between misty hills, there lived an old clockmaker named Ravel. His workshop, squeezed between a bakery and a tailor shop, was easy to miss, except at night. Then, the soft glow of a single lantern shimmered through the dusty window, and the rhythmic ticking of dozens of clocks drifted into the cobblestone street like a steady heartbeat. Orzath had a habit. Every evening just after sunset, he would wind each of his clocks by hand. Not because they needed it, but because he believed each tick carried a memory, and memories should never be allowed to fade. Some clocks chimed gently, others rang proudly, but one clock never made a sound at all. It was a tiny brass pocket watch resting inside a velvet box. It had no hands and no numbers, only a smooth golden surface. One night, as Ravel was closing the shop, the silent watch began to glow. Not like a reflection or a trick of the lantern, but a warm, living light, as if a sunrise had bloomed inside it. Ravel froze. He had crafted that watch long ago for someone he loved deeply, someone he had not seen in many years.",
+  "clean_transcript": "The Clockmaker's Lantern In a quiet town tucked between misty hills, there lived an old clockmaker named Ravel. His workshop, squeezed between a bakery and a tailor shop, was easy to miss. Except at night. Then, the soft glow of a single lantern shimmered through the dusty window, and the rhythmic ticking of dozens of clocks drifted into the cobblestone street like a steady heartbeat. Or was that how to have it? Every evening just after sunset, he would wind each of his clocks by hand. Not because they needed it, but because he believed each tick carried a memory. And memories should never be allowed to fade. Some clocks chimed gently, others rang proudly, but one clock never made a sound at all. It was a tiny brass pocket watch, resting inside a velvet box. It had no hands and no numbers, only a smooth golden surface. One night, as Ravel was closing the shop, the silent watch began to glow. Not like a reflection or a trick of the lantern, but a warm, living light, as if a sunrise had bloomed inside it. Ravel froze. He had crafted that watch long ago for someone he loved deeply. Someone he had not seen in many years.",
+  "orig_asr_meta": {
+    "language": "en",
+    "language_probability": 0.9996494054794312,
+    "duration": 79.333375,
+    "duration_after_vad": 76.885375
+  },
+  "clean_asr_meta": {
+    "language": "en",
+    "language_probability": 0.9997031092643738,
+    "duration": 79.333375,
+    "duration_after_vad": 76.821375
+  },
+  "music_presence_clean": {
+    "mean": 0.015218599291983992,
+    "std": 0.002618173420599037,
+    "n_chunks": 16
+  },
+  "music_presence_orig": {
+    "mean": 0.26562044443562627,
+    "std": 0.07581661373528191,
+    "n_chunks": 16
+  }
+}
