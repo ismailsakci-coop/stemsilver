@@ -69,4 +69,31 @@ This “max fusion” preserves speech details that one model captures better th
 - For future pushes, consider turning on Git LFS for the cleaned ZIP if you need to host it on GitHub (`git lfs install && git lfs track artifacts/outputs_cleaned.zip`).
 - GPU VRAM usage: HTDemucs-FT with 4 shifts and 6 s segments fits comfortably on an RTX 4050; MDX-Extra-Q leverages DiffQ (already installed) so expect a short model download during the first run.
 
+---
+
+#### 📦 What This Pipeline Delivers
+
+| Stage | Components | Purpose / Outcome |
+|-------|------------|-------------------|
+| **Stage A** | HTDemucs-FT (4 shifts, 6 s segments) + MDX-Extra-Q | Heavy separators run in parallel, their ratio masks are max-fused so speech cues from either model survive while accompaniment energy is nulled. |
+| **Stage B** | DNS64 denoiser (35 % wet mix, 5 % dry blend) | Removes musical bleed and broadband haze while preserving room tone. |
+| **Post** | Beta-Wiener (β = 1.5), EQ, LUFS normalization | Final noise/mask polish, 70 Hz HPF, slight 12 kHz shelf, render at −16 LUFS / −1 dBTP for spoken-word delivery. |
+| **Evaluation** | Whisper large-v3 (WER), STOI, SI-SDR, PANNs | Objective verification per file; AB snippets prepared for listening tests. |
+| **Batch Ops** | `scripts.batch_process` + aliasing | Processes every WAV under `data/batch/outputs`, mirroring folder structure inside `artifacts/cleaned/` and caching stems for fast re-runs. |
+
+**Headline metrics (pilot file `text_batched_generated.wav`):**
+
+- Music-to-Speech Energy (masked proxy): **−32.7 dB** (target ≤ −20 dB)
+- STOI vs fused vocals: **0.996**
+- SI-SDR vs fused vocals: **9.36 dB**
+- WER (orig → clean): **5.9 %** (to be revisited when Görkem/Harun provide the target ASR)
+
+**Overall workflow summary**
+
+1. Normalize each mixture to −23 LUFS, keeping true peak ≤ −1 dBTP.
+2. Run the dual separators → fuse masks → derive 1 mixed vocal stem + 1 accompaniment.
+3. Apply DNS64 + beta-Wiener to suppress residual music.
+4. Re-normalize to −16 LUFS, export cleaned WAVs, AB snippets, metadata, and evaluation charts.
+5. Zip the batch (`artifacts/outputs_cleaned.zip`) for downstream delivery.
+
 Happy separating! 🎶➝🗣️
