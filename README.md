@@ -123,16 +123,7 @@ $$M_\text{fused}(f,t) = \max_i \left( \frac{|V_i(f,t)|^2}{|V_i(f,t)|^2 + |A_i(f,
 
 #### ✅ TODO Roadmap
 
-```svg
-<svg width="100%" height="110" xmlns="http://www.w3.org/2000/svg">
-  <rect x="5" y="20" width="28%" height="70" rx="12" fill="#8ecae6"/>
-  <rect x="35%" y="20" width="28%" height="70" rx="12" fill="#ffb703"/>
-  <rect x="65%" y="20" width="28%" height="70" rx="12" fill="#219ebc"/>
-  <text x="19%" y="70" text-anchor="middle" font-size="14" fill="#072b3d">Model Experiments</text>
-  <text x="49%" y="70" text-anchor="middle" font-size="14" fill="#2f2f2f">Metrics Automation</text>
-  <text x="79%" y="70" text-anchor="middle" font-size="14" fill="#e0fbfc">Stakeholder Demo</text>
-</svg>
-```
+![Roadmap graphic](data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22768%22%20height%3D%22120%22%20viewBox%3D%220%200%20768%20120%22%3E%0A%20%20%3Crect%20x%3D%2216%22%20y%3D%2224%22%20width%3D%22220%22%20height%3D%2272%22%20rx%3D%2214%22%20fill%3D%22%238ecae6%22/%3E%0A%20%20%3Crect%20x%3D%22274%22%20y%3D%2224%22%20width%3D%22220%22%20height%3D%2272%22%20rx%3D%2214%22%20fill%3D%22%23ffb703%22/%3E%0A%20%20%3Crect%20x%3D%22532%22%20y%3D%2224%22%20width%3D%22220%22%20height%3D%2272%22%20rx%3D%2214%22%20fill%3D%22%23219ebc%22/%3E%0A%20%20%3Ctext%20x%3D%22126%22%20y%3D%2268%22%20text-anchor%3D%22middle%22%20font-size%3D%2220%22%20fill%3D%22%23072b3d%22%3EModel%20Experiments%3C/text%3E%0A%20%20%3Ctext%20x%3D%22384%22%20y%3D%2268%22%20text-anchor%3D%22middle%22%20font-size%3D%2220%22%20fill%3D%22%232f2f2f%22%3EMetrics%20Automation%3C/text%3E%0A%20%20%3Ctext%20x%3D%22642%22%20y%3D%2268%22%20text-anchor%3D%22middle%22%20font-size%3D%2220%22%20fill%3D%22%23e0fbfc%22%3EStakeholder%20Demo%3C/text%3E%0A%3C/svg%3E)
 
 | Status | Task |
 |--------|------|
