@@ -61,25 +61,26 @@ This “max fusion” preserves speech details that one model captures better th
 
 #### 🔊 Quick Listen
 
-<details open>
-<summary><strong>Original mix – <code>text_batched_generated.wav</code></strong></summary>
-
-<audio controls>
-  <source src="data/text_batched_generated.wav" type="audio/wav">
-  Your browser cannot play WAV files directly—download the file instead.
-</audio>
-
-</details>
-
-<details open>
-<summary><strong>Clean render – <code>text_batched_generated__speech_only.wav</code></strong></summary>
-
-<audio controls>
-  <source src="artifacts/text_batched_generated__speech_only.wav" type="audio/wav">
-  Your browser cannot play WAV files directly—download the file instead.
-</audio>
-
-</details>
+<table>
+  <tr>
+    <th>Original mix<br><code>text_batched_generated.wav</code></th>
+    <th>Clean render<br><code>text_batched_generated__speech_only.wav</code></th>
+  </tr>
+  <tr>
+    <td style="padding: 10px;">
+      <audio controls style="width: 100%;">
+        <source src="data/text_batched_generated.wav" type="audio/wav">
+        Download the original WAV to listen.
+      </audio>
+    </td>
+    <td style="padding: 10px;">
+      <audio controls style="width: 100%;">
+        <source src="artifacts/text_batched_generated__speech_only.wav" type="audio/wav">
+        Download the cleaned WAV to listen.
+      </audio>
+    </td>
+  </tr>
+</table>
 
 ---
 
