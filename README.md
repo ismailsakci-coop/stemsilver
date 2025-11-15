@@ -76,17 +76,22 @@ $$M_\text{fused}(f,t) = \max_i \left( \frac{|V_i(f,t)|^2}{|V_i(f,t)|^2 + |A_i(f,
 
 ```mermaid
 flowchart LR
-  M((Mixture WAV)) --> |Loudnorm −23 LUFS| P1([Preprocess]) --> P2([HTDemucs-FT])
+  M((Mixture WAV)) --> |Loudnorm -23 LUFS| P1([Preprocess]) --> P2([HTDemucs-FT])
   P2 -->|ratio mask| F((Fusion))
   MDX([MDX-Extra-Q]) -->|ratio mask| F
-  F --> D([DNS64 + Beta-Wiener]) --> PP([EQ + LUFS −16]) --> OUT((Speech-only WAV))
+  F --> D([DNS64 + Beta-Wiener]) --> PP([EQ + LUFS -16]) --> OUT((Speech-only WAV))
   OUT --> EVAL([Whisper / STOI / SI-SDR])
 
   classDef default fill:#edf2f4,stroke:#2b2d42,stroke-width:2px,color:#2b2d42;
-  class M,OUT fill:#8d99ae,color:#fff;
-  class P2,MDX,F fill:#a2d2ff;
-  class D,PP fill:#ffc8dd;
-  class EVAL fill:#cdb4db;
+  classDef io fill:#8d99ae,stroke:#2b2d42,color:#ffffff,stroke-width:2px;
+  classDef core fill:#a2d2ff,stroke:#023047,color:#023047;
+  classDef post fill:#ffc8dd,stroke:#b8306b,color:#3a0d2c;
+  classDef eval fill:#cdb4db,stroke:#6d597a,color:#2b2d42;
+
+  class M,OUT io;
+  class P2,MDX,F core;
+  class D,PP post;
+  class EVAL eval;
 ```
 
 **Pilot metrics (`text_batched_generated.wav`):**
