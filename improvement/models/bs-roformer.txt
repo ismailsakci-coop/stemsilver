@@ -1,0 +1,1 @@
+https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/UVR-BVE-MDXNET-1.onnx
